@@ -117,7 +117,7 @@ let containerRegistry = new azure.containerservice.Registry(resourceNames.contai
     tags: helper.tags,
     adminEnabled: true,
     sku: 'Basic',
-}); 
+});
 
 // let us create the app service plan and app services
 let appServicePlan = new azure.appservice.Plan(resourceNames.appServicePlan, {
@@ -154,10 +154,9 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
 //     clientAffinityEnabled: false,
 //     siteConfig: {
 //         alwaysOn: true,
-//         linuxFxVersion: `DOCKER|${containerRegistry.name}/cloudskew:latest`,
+//         linuxFxVersion: containerRegistry.name.apply(name => `DOCKER|${name}.azurecr.io/cloudskew:latest`),
 //     }
 // });
 
 //#region outputs
-export const saCDNConnectionString = saCDN.primaryConnectionString;
 //#endregion
