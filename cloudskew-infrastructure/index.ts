@@ -110,6 +110,15 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
 //     }],
 // })
 
+// let us create the container registry
+let containerRegistry = new azure.containerservice.Registry(resourceNames.containerRegistry, {
+    name: resourceNames.containerRegistry,
+    resourceGroupName: rgContainerRegistry.name,
+    tags: helper.tags,
+    adminEnabled: true,
+    sku: 'Basic',
+}); 
+
 // let us create the app service plan and app services
 let appServicePlan = new azure.appservice.Plan(resourceNames.appServicePlan, {
     name: resourceNames.appServicePlan,
@@ -135,6 +144,19 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
         linuxFxVersion: 'DOTNETCORE|2.2', // see: https://github.com/terraform-providers/terraform-provider-azurerm/issues/5350
     }
 });
+
+// let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appServiceDiagramHelper, {
+//     name: resourceNames.appServiceDiagramHelper,
+//     resourceGroupName: rgDiagramHelper.name,
+//     tags: helper.tags,
+//     appServicePlanId: appServicePlan.id,
+//     appSettings: helper.appServiceSettings,
+//     clientAffinityEnabled: false,
+//     siteConfig: {
+//         alwaysOn: true,
+//         linuxFxVersion: `DOCKER|${containerRegistry.name}/cloudskew:latest`,
+//     }
+// });
 
 //#region outputs
 export const saCDNConnectionString = saCDN.primaryConnectionString;

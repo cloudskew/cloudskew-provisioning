@@ -22,6 +22,10 @@ export const cdnEndpointLanding = `cloudskewlanding${environment}`;
 export const cdnEndpointUI = `cloudskewui${environment}`;
 //#endregion
 
+//#region container registry
+export const containerRegistry = `cloudskewxcr${environment}`; // @todo: remove the 'x' later.
+//#endregion
+
 //#region resource groups
 export const rgAPI = `rg${environment}-cloudskew-api`;
 export const rgCDN = `rg${environment}-cloudskew-cdn`;
