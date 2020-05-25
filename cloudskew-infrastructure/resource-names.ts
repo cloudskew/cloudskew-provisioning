@@ -1,6 +1,26 @@
 import * as pulumi from '@pulumi/pulumi';
 
-const environment = pulumi.getStack();
+const environment = pulumi.getStack().substr(0, 4);
+
+//#region app service plan
+export const appServicePlan = `cloudskew${environment}`;
+//#endregion
+
+//#region app service
+export const appServiceAPI = `cloudskewx${environment}`; // @todo: remove the 'x' later.
+export const appServiceDiagramHelper = `cloudskewxdgmhelper${environment}`; // @todo: remove the 'x' later.
+//#endregion
+
+//#region CDN profiles
+export const cdnProfile = `cloudskew${environment}`;
+//#endregion
+
+//#region CDN endpoints
+export const cdnEndpointAsset = `cloudskew${environment}`;
+export const cdnEndpointCustomImages = `cloudskewcustomimages${environment}`;
+export const cdnEndpointLanding = `cloudskewlanding${environment}`;
+export const cdnEndpointUI = `cloudskewui${environment}`;
+//#endregion
 
 //#region resource groups
 export const rgAPI = `rg${environment}-cloudskew-api`;
@@ -15,8 +35,8 @@ export const rgUI = `rg${environment}-cloudskew-ui`;
 //#endregion
 
 //#region storage accounts
-export const saCDN = `cloudskewcdn${environment}`;
-export const saCustomImages = `cloudskewcustimages${environment}`;
-export const saLanding = `cloudskewlanding${environment}`;
-export const saUI = `cloudskewui${environment}`;
+export const saCDN = `cloudskewxcdn${environment}`; // @todo: remove the 'x' later.
+export const saCustomImages = `cloudskewxcustimages${environment}`; // @todo: remove the 'x' later.
+export const saLanding = `cloudskewxlanding${environment}`; // @todo: remove the 'x' later.
+export const saUI = `cloudskewxui${environment}`; // @todo: remove the 'x' later.
 //#endregion
