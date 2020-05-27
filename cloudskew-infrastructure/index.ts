@@ -5,7 +5,8 @@ import * as resourceNames from './resource-names';
 // @todo: need to ensure that this is either 'dev' or 'test', else must throw error
 const location = 'westeurope';
 
-// spawn the resource groups
+//#region resource groups
+
 let rgAPI = new azure.core.ResourceGroup(resourceNames.rgAPI, {
     name: resourceNames.rgAPI,
     location: location,
@@ -60,7 +61,10 @@ let rgUI = new azure.core.ResourceGroup(resourceNames.rgUI, {
     tags: helper.tags,
 });
 
-// now let us create the storage accounts
+//#endregion
+
+//#region storage accounts
+
 let saCDN = new azure.storage.Account(resourceNames.saCDN, {
     name: resourceNames.saCDN,
     resourceGroupName: rgCDN.name,
@@ -93,6 +97,10 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
     accountTier: 'Standard',
 });
 
+//#endregion
+
+//#region CDN
+
 // // now let us create the CDN profiles & endpoints
 // let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
 //     name: resourceNames.cdnProfile,
@@ -110,7 +118,8 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
 //     }],
 // })
 
-// let us create the container registry
+//#region container registry
+
 let containerRegistry = new azure.containerservice.Registry(resourceNames.containerRegistry, {
     name: resourceNames.containerRegistry,
     resourceGroupName: rgContainerRegistry.name,
@@ -119,7 +128,10 @@ let containerRegistry = new azure.containerservice.Registry(resourceNames.contai
     sku: 'Basic',
 });
 
-// let us create the app service plan and app services
+//#endregion
+
+//#region app service
+
 let appServicePlan = new azure.appservice.Plan(resourceNames.appServicePlan, {
     name: resourceNames.appServicePlan,
     resourceGroupName: rgAPI.name,
@@ -154,9 +166,24 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
 //     clientAffinityEnabled: false,
 //     siteConfig: {
 //         alwaysOn: true,
-//         linuxFxVersion: containerRegistry.name.apply(name => `DOCKER|${name}.azurecr.io/cloudskew:latest`),
+//         linuxFxVersion: containerRegistry.name.apply(name => `DOCKER|https://${name}.azurecr.io/cloudskew:latest`),
 //     }
 // });
+
+//#endregion
+
+//#region sql server and database
+
+// let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
+//     name: resourceNames.sqlServer,
+//     resourceGroupName: rgSQL.name,
+//     tags: helper.tags,
+//     version: '12.0',
+//     administratorLogin: 'myadmin', // @todo: for testing only. Make sure this is encrypted later.
+//     administratorLoginPassword: 'myPassword1$', // @todo: for testing only. Make sure this is encrypted later.
+// });
+
+//#endregion
 
 //#region outputs
 //#endregion
