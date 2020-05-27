@@ -174,14 +174,24 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
 
 //#region sql server and database
 
-// let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
-//     name: resourceNames.sqlServer,
-//     resourceGroupName: rgSQL.name,
-//     tags: helper.tags,
-//     version: '12.0',
-//     administratorLogin: 'myadmin', // @todo: for testing only. Make sure this is encrypted later.
-//     administratorLoginPassword: 'myPassword1$', // @todo: for testing only. Make sure this is encrypted later.
-// });
+let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
+    name: resourceNames.sqlServer,
+    resourceGroupName: rgSQL.name,
+    tags: helper.tags,
+    version: '12.0',
+    administratorLogin: 'myadmin', // @todo: for testing only. Make sure this is encrypted later.
+    administratorLoginPassword: 'myPassword1$', // @todo: for testing only. Make sure this is encrypted later.
+});
+
+let sqlDB = new azure.sql.Database(resourceNames.sqlDB, {
+    name: resourceNames.sqlDB,
+    resourceGroupName: rgSQL.name,
+    tags: helper.tags,
+    serverName: sqlServer.name,
+    edition: helper.sqlDBEdition,
+    maxSizeGb: helper.sqlDBMaxSizeGB,
+    requestedServiceObjectiveName: helper.sqlDBRequestedServiceObjectiveName,
+});
 
 //#endregion
 

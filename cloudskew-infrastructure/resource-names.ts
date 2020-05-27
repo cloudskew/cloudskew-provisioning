@@ -45,6 +45,10 @@ export const saLanding = `cloudskewxlanding${environment}`; // @todo: remove the
 export const saUI = `cloudskewxui${environment}`; // @todo: remove the 'x' later.
 //#endregion
 
+//#region sql databases
+export const sqlDB = `cloudskewx${environment}`; // @todo: remove the 'x' later.
+//#endregion
+
 //#region sql servers
-export const sqlServer = `cloudskew${environment}`;
+export const sqlServer = `cloudskewx${environment}`;  // @todo: remove the 'x' later.
 //#endregion
