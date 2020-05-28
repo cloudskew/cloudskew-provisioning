@@ -3,8 +3,16 @@ import * as pulumi from '@pulumi/pulumi';
 import * as helper from './helper';
 import * as resourceNames from './resource-names';
 
-// @todo: need to ensure that this is either 'dev' or 'test', else must throw error
 const environment = pulumi.getStack().toLowerCase();
+
+// ensure that specified stack is one of the following 'production' or 'testing'
+let allowedEnvironments = ['production', 'testing'];
+if (!allowedEnvironments.includes(environment)) {
+    throw new pulumi.RunError(`
+        Invalid stack specified: '${environment}' Stack must be one of the following: ${allowedEnvironments.map(e => "'" + e + "'").join(', ')}
+    `);
+}
+
 const location = 'westeurope';
 
 //#region resource groups
