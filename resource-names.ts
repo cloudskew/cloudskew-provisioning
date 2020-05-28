@@ -16,10 +16,10 @@ export const cdnProfile = `cloudskew${environment}`;
 //#endregion
 
 //#region CDN endpoints
-export const cdnEndpointAsset = `cloudskew${environment}`;
-export const cdnEndpointCustomImages = `cloudskewcustomimages${environment}`;
-export const cdnEndpointLanding = `cloudskewlanding${environment}`;
-export const cdnEndpointUI = `cloudskewui${environment}`;
+export const cdnEndpointAsset = `cloudskewx${environment}`; // @todo: remove the 'x' later.
+export const cdnEndpointCustomImages = `cloudskewxcustomimages${environment}`; // @todo: remove the 'x' later.
+export const cdnEndpointLanding = `cloudskewxlanding${environment}`; // @todo: remove the 'x' later.
+export const cdnEndpointUI = `cloudskewxui${environment}`; // @todo: remove the 'x' later.
 //#endregion
 
 //#region container registry

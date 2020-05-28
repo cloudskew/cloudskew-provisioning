@@ -109,24 +109,40 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
 
 //#endregion
 
-//#region CDN
+//#region CDN profiles and endpoints
 
-// // now let us create the CDN profiles & endpoints
-// let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
-//     name: resourceNames.cdnProfile,
-//     resourceGroupName: rgCDN.name,
-//     sku: 'Standard_Microsoft',
-// });
+let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
+    name: resourceNames.cdnProfile,
+    resourceGroupName: rgCDN.name,
+    sku: 'Standard_Microsoft',
+});
 
-// let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
-//     name: resourceNames.cdnEndpointAsset,
-//     resourceGroupName: rgCDN.name,
-//     profileName: cdnProfile.name,
-//     origins: [{
-//         name: 'testsamplebrew',
-//         hostName: saCDN.primaryBlobEndpoint,
-//     }],
-// })
+// note #1: the 'originHostHeader' is not optional even though the documentation says otherwise.
+// - https://github.com/terraform-providers/terraform-provider-azurerm/issues/3084
+// note #2: the CDN endpoint 'origin type' only exists in the azure portal. 
+// No representation for this exists in ARM or terraform.
+// - https://github.com/terraform-providers/terraform-provider-azurerm/issues/56
+let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
+    name: resourceNames.cdnEndpointAsset,
+    resourceGroupName: rgCDN.name,
+    profileName: cdnProfile.name,
+    originHostHeader: saCDN.primaryBlobHost,
+    origins: [{
+        name: saCDN.primaryBlobHost,
+        hostName: saCDN.primaryBlobHost,
+    }],
+});
+
+let cndEndpointCustomImages = new azure.cdn.Endpoint(resourceNames.cdnEndpointCustomImages, {
+    name: resourceNames.cdnEndpointCustomImages,
+    resourceGroupName: rgCDN.name,
+    profileName: cdnProfile.name,
+    originHostHeader: saCustomImages.primaryBlobHost,
+    origins: [{
+        name: saCustomImages.primaryBlobHost,
+        hostName: saCustomImages.primaryBlobHost,
+    }],
+});
 
 //#region container registry
 
