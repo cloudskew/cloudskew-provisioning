@@ -5,7 +5,7 @@ import * as resourceNames from './resource-names';
 
 const environment = pulumi.getStack().toLowerCase();
 
-// ensure that specified stack is one of the following 'production' or 'testing'
+// ensure that specified stack is one of the following: 'production', 'testing'
 let allowedEnvironments = ['production', 'testing'];
 if (!allowedEnvironments.includes(environment)) {
     throw new pulumi.RunError(`
@@ -198,6 +198,18 @@ let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
     version: '12.0',
     administratorLogin: 'myadmin', // @todo: for testing only. Make sure this is encrypted later.
     administratorLoginPassword: 'myPassword1$', // @todo: for testing only. Make sure this is encrypted later.
+});
+
+// To ensure that azure services can access the sql server, we need to create a firewall rule with the startIPAddress and 
+// the endIPAddress both as '0.0.0.0'. More details:
+// - https://www.terraform.io/docs/providers/azurerm/r/sql_firewall_rule.html#argument-reference
+// - https://docs.microsoft.com/en-us/rest/api/sql/firewallrules/createorupdate
+let sqlServerFirewallRule = new azure.sql.FirewallRule(resourceNames.sqlServerFirewallRule, {
+    name: resourceNames.sqlServerFirewallRule,
+    resourceGroupName: rgSQL.name,
+    serverName: sqlServer.name,
+    startIpAddress: '0.0.0.0',
+    endIpAddress: '0.0.0.0',
 });
 
 let sqlDB = new azure.sql.Database(resourceNames.sqlDB, {
