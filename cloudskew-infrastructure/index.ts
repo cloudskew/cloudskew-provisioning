@@ -1,8 +1,10 @@
 import * as azure from '@pulumi/azure';
+import * as pulumi from '@pulumi/pulumi';
 import * as helper from './helper';
 import * as resourceNames from './resource-names';
 
 // @todo: need to ensure that this is either 'dev' or 'test', else must throw error
+const environment = pulumi.getStack().toLowerCase();
 const location = 'westeurope';
 
 //#region resource groups
@@ -149,7 +151,9 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
     resourceGroupName: rgAPI.name,
     tags: helper.tags,
     appServicePlanId: appServicePlan.id,
-    appSettings: helper.appServiceSettings,
+    appSettings: {
+        ASPNETCORE_ENVIRONMENT: environment
+    },
     clientAffinityEnabled: false,
     siteConfig: {
         alwaysOn: true,
@@ -157,18 +161,23 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
     }
 });
 
-// let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appServiceDiagramHelper, {
-//     name: resourceNames.appServiceDiagramHelper,
-//     resourceGroupName: rgDiagramHelper.name,
-//     tags: helper.tags,
-//     appServicePlanId: appServicePlan.id,
-//     appSettings: helper.appServiceSettings,
-//     clientAffinityEnabled: false,
-//     siteConfig: {
-//         alwaysOn: true,
-//         linuxFxVersion: containerRegistry.name.apply(name => `DOCKER|https://${name}.azurecr.io/cloudskew:latest`),
-//     }
-// });
+let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appServiceDiagramHelper, {
+    name: resourceNames.appServiceDiagramHelper,
+    resourceGroupName: rgDiagramHelper.name,
+    tags: helper.tags,
+    appServicePlanId: appServicePlan.id,
+    appSettings: {
+        ASPNETCORE_ENVIRONMENT: environment,
+        DOCKER_REGISTRY_SERVER_URL: containerRegistry.loginServer.apply(loginServer => `https://${loginServer}`),
+        DOCKER_REGISTRY_SERVER_USERNAME: containerRegistry.adminUsername,
+        DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistry.adminPassword,
+    },
+    clientAffinityEnabled: false,
+    siteConfig: {
+        alwaysOn: true,
+        linuxFxVersion: containerRegistry.loginServer.apply(loginServer => `DOCKER|${loginServer}/cloudskew:latest`),
+    }
+});
 
 //#endregion
 
@@ -188,9 +197,9 @@ let sqlDB = new azure.sql.Database(resourceNames.sqlDB, {
     resourceGroupName: rgSQL.name,
     tags: helper.tags,
     serverName: sqlServer.name,
-    edition: helper.sqlDBEdition,
-    maxSizeGb: helper.sqlDBMaxSizeGB,
-    requestedServiceObjectiveName: helper.sqlDBRequestedServiceObjectiveName,
+    edition: environment === 'production' ? 'Standard' : 'Basic',
+    maxSizeBytes: environment === 'production' ? '32212254720' /* 30 GB */ : '2147483648' /* 2 GB */,
+    requestedServiceObjectiveName: environment === 'production' ? 'S1' : 'Basic',
 });
 
 //#endregion
