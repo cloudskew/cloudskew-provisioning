@@ -15,6 +15,8 @@ if (!allowedStacks.includes(environment)) {
 
 const location = 'westeurope';
 
+const clientConfig = azure.core.getClientConfig({});
+
 //#region resource groups
 
 let rgAPI = new azure.core.ResourceGroup(resourceNames.rgAPI, {
@@ -122,6 +124,8 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
 let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
     name: resourceNames.cdnProfile,
     resourceGroupName: rgCDN.name,
+    tags: helper.tags,
+    location: 'global',
     sku: 'Standard_Microsoft',
 });
 
@@ -134,6 +138,8 @@ let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
 let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
     name: resourceNames.cdnEndpointAsset,
     resourceGroupName: rgCDN.name,
+    tags: helper.tags,
+    location: 'global',
     profileName: cdnProfile.name,
     originHostHeader: saCDN.primaryBlobHost,
     origins: [{
@@ -145,6 +151,8 @@ let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
 let cndEndpointCustomImages = new azure.cdn.Endpoint(resourceNames.cdnEndpointCustomImages, {
     name: resourceNames.cdnEndpointCustomImages,
     resourceGroupName: rgCDN.name,
+    tags: helper.tags,
+    location: 'global',
     profileName: cdnProfile.name,
     originHostHeader: saCustomImages.primaryBlobHost,
     origins: [{
@@ -156,6 +164,8 @@ let cndEndpointCustomImages = new azure.cdn.Endpoint(resourceNames.cdnEndpointCu
 let cndEndpointLanding = new azure.cdn.Endpoint(resourceNames.cdnEndpointLanding, {
     name: resourceNames.cdnEndpointLanding,
     resourceGroupName: rgCDN.name,
+    tags: helper.tags,
+    location: 'global',
     profileName: cdnProfile.name,
     originHostHeader: saLanding.primaryWebHost,
     origins: [{
@@ -167,6 +177,8 @@ let cndEndpointLanding = new azure.cdn.Endpoint(resourceNames.cdnEndpointLanding
 let cndEndpointUI = new azure.cdn.Endpoint(resourceNames.cdnEndpointUI, {
     name: resourceNames.cdnEndpointUI,
     resourceGroupName: rgCDN.name,
+    tags: helper.tags,
+    location: 'global',
     profileName: cdnProfile.name,
     originHostHeader: saUI.primaryWebHost,
     origins: [{
@@ -267,6 +279,45 @@ let sqlDB = new azure.sql.Database(resourceNames.sqlDB, {
     edition: environment === 'production' ? 'Standard' : 'Basic',
     maxSizeBytes: environment === 'production' ? '32212254720' /* 30 GB */ : '2147483648' /* 2 GB */,
     requestedServiceObjectiveName: environment === 'production' ? 'S1' : 'Basic',
+});
+
+//#endregion
+
+//#region key vault (with access policies & secrets)
+
+let keyVault = new azure.keyvault.KeyVault(resourceNames.keyVault, {
+    name: resourceNames.keyVault,
+    resourceGroupName: rgKeyVault.name,
+    tags: helper.tags,
+    skuName: 'standard',
+    tenantId: clientConfig.then(c => c.tenantId),
+    accessPolicies: [{
+        objectId: clientConfig.then(c => c.objectId),
+        tenantId: clientConfig.then(c => c.tenantId),
+        secretPermissions: [
+            'get',
+            'list',
+            'set',
+            'delete',
+            'backup',
+            'recover',
+            'restore'
+        ],
+    }],
+});
+
+let kvSecretCustomImagesStorageAccountConnectionString = new azure.keyvault.Secret(resourceNames.kvSecretCustomImagesStorageAccountConnectionString, {
+    name: resourceNames.kvSecretCustomImagesStorageAccountConnectionString,
+    keyVaultId: keyVault.id,
+    value: saCustomImages.primaryConnectionString,
+    contentType: 'connection string to storage account for custom images',
+});
+
+let kvSecretSqlConnectionString = new azure.keyvault.Secret(resourceNames.kvSecretSqlConnectionString, {
+    name: resourceNames.kvSecretSqlConnectionString,
+    keyVaultId: keyVault.id,
+    value: `Server=tcp:${sqlServer.fullyQualifiedDomainName},1433;Initial Catalog=${sqlDB.name};Persist Security Info=False;User ID=${sqlServer.administratorLogin};Password=${sqlServer.administratorLoginPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`,
+    contentType: 'connection string to cloudskew sql db',
 });
 
 //#endregion

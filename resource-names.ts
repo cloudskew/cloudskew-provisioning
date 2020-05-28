@@ -26,6 +26,15 @@ export const cdnEndpointUI = `cloudskewxui${environment}`; // @todo: remove the 
 export const containerRegistry = `cloudskewxcr${environment}`; // @todo: remove the 'x' later.
 //#endregion
 
+//#region key vault
+export const keyVault = `cloudskewxkeyvault${environment}`; // @todo: remove the 'x' later.
+//#endregion
+
+//#region key vault secrets
+export const kvSecretSqlConnectionString = 'sqlConnectionString';
+export const kvSecretCustomImagesStorageAccountConnectionString = 'customImagesStorageAccountConnectionString';
+//#endregion
+
 //#region resource groups
 export const rgAPI = `rg${environment}-cloudskew-api`;
 export const rgCDN = `rg${environment}-cloudskew-cdn`;
