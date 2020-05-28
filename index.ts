@@ -97,6 +97,10 @@ let saLanding = new azure.storage.Account(resourceNames.saLanding, {
     tags: helper.tags,
     accountReplicationType: 'LRS',
     accountTier: 'Standard',
+    staticWebsite: {
+        indexDocument: 'index.html',
+        error404Document: 'index.html',
+    },
 });
 
 let saUI = new azure.storage.Account(resourceNames.saUI, {
@@ -105,6 +109,10 @@ let saUI = new azure.storage.Account(resourceNames.saUI, {
     tags: helper.tags,
     accountReplicationType: 'LRS',
     accountTier: 'Standard',
+    staticWebsite: {
+        indexDocument: 'index.html',
+        error404Document: 'index.html',
+    },
 });
 
 //#endregion
@@ -119,16 +127,17 @@ let cdnProfile = new azure.cdn.Profile(resourceNames.cdnProfile, {
 
 // note #1: the 'originHostHeader' is not optional even though the documentation says otherwise.
 // - https://github.com/terraform-providers/terraform-provider-azurerm/issues/3084
-// note #2: the CDN endpoint 'origin type' only exists in the azure portal. 
+// note #2: the CDN endpoint 'origin type' only exists in the azure portal.
 // No representation for this exists in ARM or terraform.
 // - https://github.com/terraform-providers/terraform-provider-azurerm/issues/56
+
 let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
     name: resourceNames.cdnEndpointAsset,
     resourceGroupName: rgCDN.name,
     profileName: cdnProfile.name,
     originHostHeader: saCDN.primaryBlobHost,
     origins: [{
-        name: saCDN.primaryBlobHost,
+        name: resourceNames.cdnEndpointAsset,
         hostName: saCDN.primaryBlobHost,
     }],
 });
@@ -139,8 +148,30 @@ let cndEndpointCustomImages = new azure.cdn.Endpoint(resourceNames.cdnEndpointCu
     profileName: cdnProfile.name,
     originHostHeader: saCustomImages.primaryBlobHost,
     origins: [{
-        name: saCustomImages.primaryBlobHost,
+        name: resourceNames.cdnEndpointCustomImages,
         hostName: saCustomImages.primaryBlobHost,
+    }],
+});
+
+let cndEndpointLanding = new azure.cdn.Endpoint(resourceNames.cdnEndpointLanding, {
+    name: resourceNames.cdnEndpointLanding,
+    resourceGroupName: rgCDN.name,
+    profileName: cdnProfile.name,
+    originHostHeader: saLanding.primaryWebHost,
+    origins: [{
+        name: resourceNames.cdnEndpointLanding,
+        hostName: saLanding.primaryWebHost,
+    }],
+});
+
+let cndEndpointUI = new azure.cdn.Endpoint(resourceNames.cdnEndpointUI, {
+    name: resourceNames.cdnEndpointUI,
+    resourceGroupName: rgCDN.name,
+    profileName: cdnProfile.name,
+    originHostHeader: saUI.primaryWebHost,
+    origins: [{
+        name: resourceNames.cdnEndpointUI,
+        hostName: saUI.primaryWebHost,
     }],
 });
 
