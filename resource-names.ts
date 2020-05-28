@@ -26,6 +26,10 @@ export const cdnEndpointUI = `cloudskewxui${environment}`; // @todo: remove the 
 export const containerRegistry = `cloudskewxcr${environment}`; // @todo: remove the 'x' later.
 //#endregion
 
+//#region container registry webhook
+export const crWebhook = `cloudskewxcrwebhook${environment}`;
+//#endregion
+
 //#region key vault
 export const keyVault = `cloudskewxkeyvault${environment}`; // @todo: remove the 'x' later.
 //#endregion

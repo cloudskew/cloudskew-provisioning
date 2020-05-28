@@ -187,7 +187,7 @@ let cndEndpointUI = new azure.cdn.Endpoint(resourceNames.cdnEndpointUI, {
     }],
 });
 
-//#region container registry
+//#region container registry and webhook
 
 let containerRegistry = new azure.containerservice.Registry(resourceNames.containerRegistry, {
     name: resourceNames.containerRegistry,
@@ -196,6 +196,16 @@ let containerRegistry = new azure.containerservice.Registry(resourceNames.contai
     adminEnabled: true,
     sku: 'Basic',
 });
+
+// let containerRegistryWebhook = new azure.containerservice.RegistryWebhook(resourceNames.crWebhook, {
+//     name: resourceNames.crWebhook,
+//     resourceGroupName: rgContainerRegistry.name,
+//     tags: helper.tags,
+//     registryName: containerRegistry.name,
+//     actions: ['push'],
+//     serviceUri: '',
+//     scope: 'cloudskew:latest',
+// });
 
 //#endregion
 
