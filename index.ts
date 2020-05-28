@@ -316,7 +316,8 @@ let kvSecretCustomImagesStorageAccountConnectionString = new azure.keyvault.Secr
 let kvSecretSqlConnectionString = new azure.keyvault.Secret(resourceNames.kvSecretSqlConnectionString, {
     name: resourceNames.kvSecretSqlConnectionString,
     keyVaultId: keyVault.id,
-    value: `Server=tcp:${sqlServer.fullyQualifiedDomainName},1433;Initial Catalog=${sqlDB.name};Persist Security Info=False;User ID=${sqlServer.administratorLogin};Password=${sqlServer.administratorLoginPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`,
+    value: pulumi.interpolate
+        `Server=tcp:${sqlServer.fullyQualifiedDomainName},1433;Initial Catalog=${sqlDB.name};Persist Security Info=False;User ID=${sqlServer.administratorLogin};Password=${sqlServer.administratorLoginPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;`,
     contentType: 'connection string to cloudskew sql db',
 });
 
