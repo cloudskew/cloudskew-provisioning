@@ -6,10 +6,10 @@ import * as resourceNames from './resource-names';
 const environment = pulumi.getStack().toLowerCase();
 
 // ensure that specified stack is one of the following: 'production', 'testing'
-let allowedEnvironments = ['production', 'testing'];
-if (!allowedEnvironments.includes(environment)) {
+let allowedStacks = ['production', 'testing'];
+if (!allowedStacks.includes(environment)) {
     throw new pulumi.RunError(`
-        Invalid stack specified: '${environment}' Stack must be one of the following: ${allowedEnvironments.map(e => "'" + e + "'").join(', ')}
+        Invalid stack specified: '${environment}' Stack must be one of the following: ${allowedStacks.map(e => "'" + e + "'").join(', ')}
     `);
 }
 
