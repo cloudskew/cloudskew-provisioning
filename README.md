@@ -4,6 +4,8 @@
 
 ## Current Status
 
+TBD
+
 ## Prerequisites
 
 #### Environments
@@ -49,7 +51,6 @@ TBD
 ## Pending Work
 
 * ACR webhook
-* Managed Identity
 * Azure Functions
 * Azure Service bus
 * Azure Monitor
