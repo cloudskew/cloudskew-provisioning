@@ -61,8 +61,8 @@ let rgLanding = new azure.core.ResourceGroup(resourceNames.rgLanding, {
     tags: helper.tags,
 });
 
-let rgManagedIdentity = new azure.core.ResourceGroup(resourceNames.managedIdentity, {
-    name: resourceNames.managedIdentity,
+let rgManagedIdentity = new azure.core.ResourceGroup(resourceNames.rgManagedIdentity, {
+    name: resourceNames.rgManagedIdentity,
     location: location,
     tags: helper.tags,
 });
