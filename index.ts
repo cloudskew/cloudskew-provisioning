@@ -61,6 +61,12 @@ let rgLanding = new azure.core.ResourceGroup(resourceNames.rgLanding, {
     tags: helper.tags,
 });
 
+let rgManagedIdentity = new azure.core.ResourceGroup(resourceNames.managedIdentity, {
+    name: resourceNames.managedIdentity,
+    location: location,
+    tags: helper.tags,
+});
+
 let rgSQL = new azure.core.ResourceGroup(resourceNames.rgSQL, {
     name: resourceNames.rgSQL,
     location: location,
@@ -209,6 +215,16 @@ let containerRegistry = new azure.containerservice.Registry(resourceNames.contai
 
 //#endregion
 
+//#region managed identity (user-assigned)
+
+let managedIdentity = new azure.authorization.UserAssignedIdentity(resourceNames.managedIdentity, {
+    name: resourceNames.managedIdentity,
+    resourceGroupName: rgManagedIdentity.name,
+    tags: helper.tags,
+});
+
+//#endregion
+
 //#region app service
 
 let appServicePlan = new azure.appservice.Plan(resourceNames.appServicePlan, {
@@ -235,7 +251,13 @@ let appServiceAPI = new azure.appservice.AppService(resourceNames.appServiceAPI,
     siteConfig: {
         alwaysOn: true,
         linuxFxVersion: 'DOTNETCORE|2.2', // see: https://github.com/terraform-providers/terraform-provider-azurerm/issues/5350
-    }
+    },
+    identity: {
+        type: 'UserAssigned',
+        identityIds: [
+            managedIdentity.id
+        ],
+    },
 });
 
 let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appServiceDiagramHelper, {
@@ -245,14 +267,14 @@ let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appS
     appServicePlanId: appServicePlan.id,
     appSettings: {
         ASPNETCORE_ENVIRONMENT: environment,
-        DOCKER_REGISTRY_SERVER_URL: containerRegistry.loginServer.apply(loginServer => `https://${loginServer}`),
+        DOCKER_REGISTRY_SERVER_URL: pulumi.interpolate`https://${containerRegistry.loginServer}`,
         DOCKER_REGISTRY_SERVER_USERNAME: containerRegistry.adminUsername,
         DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistry.adminPassword,
     },
     clientAffinityEnabled: false,
     siteConfig: {
         alwaysOn: true,
-        linuxFxVersion: containerRegistry.loginServer.apply(loginServer => `DOCKER|${loginServer}/cloudskew:latest`),
+        linuxFxVersion: pulumi.interpolate`DOCKER|${containerRegistry.loginServer}/cloudskew:latest`,
     }
 });
 
@@ -311,7 +333,20 @@ let keyVault = new azure.keyvault.KeyVault(resourceNames.keyVault, {
             'delete',
             'backup',
             'recover',
-            'restore'
+            'restore',
+        ],
+    },
+    {
+        objectId: managedIdentity.principalId,
+        tenantId: clientConfig.then(c => c.tenantId),
+        secretPermissions: [
+            'get',
+            'list',
+            'set',
+            'delete',
+            'backup',
+            'recover',
+            'restore',
         ],
     }],
 });

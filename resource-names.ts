@@ -39,6 +39,10 @@ export const kvSecretSqlConnectionString = 'sqlConnectionString';
 export const kvSecretCustomImagesStorageAccountConnectionString = 'customImagesStorageAccountConnectionString';
 //#endregion
 
+//#region managed identity (user-assigned)
+export const managedIdentity = `cloudskewmanagedidentity${environment}`;
+//#endregion
+
 //#region resource groups
 export const rgAPI = `rg${environment}-cloudskew-api`;
 export const rgCDN = `rg${environment}-cloudskew-cdn`;
@@ -47,6 +51,7 @@ export const rgCustomImages = `rg${environment}-cloudskew-custom-images`;
 export const rgDiagramHelper = `rg${environment}-cloudskew-diagram-helper`;
 export const rgKeyVault = `rg${environment}-cloudskew-keyvault`;
 export const rgLanding = `rg${environment}-cloudskew-landing`;
+export const rgManagedIdentity = `rg${environment}-cloudskew-managed-identity`;
 export const rgSQL = `rg${environment}-cloudskew-sql`;
 export const rgUI = `rg${environment}-cloudskew-ui`;
 //#endregion
