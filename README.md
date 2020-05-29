@@ -6,13 +6,13 @@
 
 ## Prerequisites
 
-### Environments
+#### Environments
 
 CloudSkew uses two separate Azure Subscriptions to isolate its testing and production environments.
 
 Our [Pulumi Project](https://www.pulumi.com/docs/intro/concepts/project/) also uses two separate [Pulumi Stacks](https://www.pulumi.com/docs/intro/concepts/stack/) (`testing`, `production`) to isolate deployment configs for the above environments.
 
-### Service Principals and Role Assignment
+#### Service Principals and Role Assignment
 
 For automation, two service principals have been created in Azure Active Directory:
 
@@ -23,7 +23,7 @@ Both service principals have been assigned the `contributor` role in their respe
 
 ## Deployment Process
 
-### Testing Environment (Manual)
+#### Testing Environment (Manual)
 
 Ensure that you have [Pulumi installed on your local machine](https://www.pulumi.com/docs/get-started/azure/) and are logged in using the access token.
 
@@ -42,7 +42,7 @@ Ensure that you have [Pulumi installed on your local machine](https://www.pulumi
 7. run `pulumi stack select testing`
 8. run `pulumi up`
 
-### Production Environment (Automated)
+#### Production Environment (Automated)
 
 TBD
 
