@@ -28,10 +28,10 @@ Both service principals have been assigned the `contributor` role in their respe
 Ensure that you have [Pulumi installed on your local machine](https://www.pulumi.com/docs/get-started/azure/) and are logged in using the access token.
 
 1. Open a terminal window
-2. Clone this git repository locally: `git clone <remote url> <local folder>`.
-3. Navigate to the local repo.
-4. Install pulumi: `curl -fsSL https://get.pulumi.com | sh`
-5. Set the following environment variables (use `cloudskew-testing-service-principal`):
+2. Clone this git repository locally: `git clone <remote url> <local folder>`
+3. Navigate to the local repo
+4. Install Pulumi: `curl -fsSL https://get.pulumi.com | sh`
+5. Set the following environment variables (use details of `cloudskew-testing-service-principal`)
 
     * export ARM_CLIENT_ID=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-ID
     * export ARM_CLIENT_SECRET=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-SECRET
