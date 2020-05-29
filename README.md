@@ -1,6 +1,6 @@
 # cloudskew-provisioning
 
-Work in progress: Over several sprints, CloudSkew's infrastructure provisioning scripts will be migrated from terraform to pulumi.
+**Work in progress**: Over several sprints, CloudSkew's infrastructure provisioning scripts will be migrated from terraform to pulumi.
 
 ## Current Status
 
@@ -31,15 +31,16 @@ Ensure that you have [Pulumi installed on your local machine](https://www.pulumi
 2. Clone this git repository locally: `git clone <remote url> <local folder>`
 3. Navigate to the local repo
 4. Install Pulumi: `curl -fsSL https://get.pulumi.com | sh`
-5. Set the following environment variables (use details of `cloudskew-testing-service-principal`)
+5. Run `npm install`
+6. Set the following environment variables (use details of `cloudskew-testing-service-principal`)
 
     * export ARM_CLIENT_ID=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-ID
     * export ARM_CLIENT_SECRET=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-SECRET
     * export ARM_SUBSCRIPTION_ID=REPLACE-WITH-AZURE-SUBSCRIPTION-ID
     * export ARM_TENANT_ID=REPLACE-WITH-AZURE-TENANT-ID
 
-6. run `pulumi stack select testing`
-7. run `pulumi up`
+7. run `pulumi stack select testing`
+8. run `pulumi up`
 
 ### Production Environment (Automated)
 
