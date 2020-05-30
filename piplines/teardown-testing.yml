@@ -1,4 +1,4 @@
-# Provisions the cloudskew infrastructure in the testing environment.
+# Tears down the cloudskew infrastructure in the testing environment.
 
 pool:
   vmImage: ubuntu-latest
@@ -11,7 +11,7 @@ variables:
   - group: cloudskew-variable-group
 
 stages:
-  - template: templates/stages.yml
+  - template: templates/teardown.yml
     parameters:
       azureSubscription: $(temp-delete-me-service-connection)
       environment: testing
