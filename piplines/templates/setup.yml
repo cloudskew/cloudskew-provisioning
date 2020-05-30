@@ -1,0 +1,59 @@
+parameters:
+  # default values for any parameters that aren't specified.
+  # please keep this list alphabetically sorted.
+  azureSubscription: ''
+  environment: ''
+  
+stages:
+
+  - stage: build
+    jobs:
+      - job: build
+        steps:
+          # Install all the prerequisites
+          - script: npm install
+            displayName: npm install
+          # publish the pipeline artifact
+          - task: PublishPipelineArtifact@1
+            displayName: publish artifact
+            inputs:
+              artifact: dist
+              targetPath: $(Build.SourcesDirectory)
+
+  - stage: test
+    jobs:
+      - job: test
+
+  - stage: deploy
+    # don't execute this stage if triggered via pull-request.
+    condition: and(succeeded(), ne(variables['build.reason'], 'PullRequest'))
+    displayName: deploy to ${{parameters.environment}} environment
+    jobs:
+      - deployment: deploy
+        displayName: deploy to ${{parameters.environment}} environment
+        environment: ${{parameters.environment}}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                # Let's now download the artifact we published earlier.
+                # Note: Artifacts are the only mechanism via which a stage can consume the 
+                # output of an earlier stage
+                - task: DownloadPipelineArtifact@2
+                  displayName: download artifact
+                  inputs:
+                    artifactName: dist
+                    targetPath: $(Build.SourcesDirectory)
+                - task: Pulumi@1
+                  displayName: pulumi preview
+                  inputs:
+                    azureSubscription: ${{parameters.azureSubscription}}
+                    command: 'preview'
+                    stack: ${{parameters.environment}}
+                - task: Pulumi@1
+                  displayName: pulumi up
+                  inputs:
+                    azureSubscription: ${{parameters.azureSubscription}}
+                    command: 'up'
+                    stack: ${{parameters.environment}}
+                    args: '--yes'

@@ -1,0 +1,17 @@
+# Tears down the cloudskew infrastructure in the testing environment.
+
+pool:
+  vmImage: ubuntu-latest
+
+trigger: none
+
+name: cloudskew-teardown.testing
+
+variables:
+  - group: cloudskew-variable-group
+
+stages:
+  - template: templates/teardown.yml
+    parameters:
+      azureSubscription: $(temp-delete-me-service-connection)
+      environment: testing
