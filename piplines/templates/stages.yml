@@ -45,8 +45,15 @@ stages:
                     artifactName: dist
                     targetPath: $(Build.SourcesDirectory)
                 - task: Pulumi@1
-                  displayName: 
+                  displayName: pulumi preview
                   inputs:
                     azureSubscription: ${{parameters.azureSubscription}}
                     command: 'preview'
                     stack: ${{parameters.environment}}
+                - task: Pulumi@1
+                  displayName: pulumi up
+                  inputs:
+                    azureSubscription: ${{parameters.azureSubscription}}
+                    command: 'up'
+                    stack: ${{parameters.environment}}
+                    args: '--yes'
