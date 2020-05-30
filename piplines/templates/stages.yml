@@ -46,4 +46,4 @@ stages:
                   inputs:
                     azureSubscription: ${{parameters.azureSubscription}}
                     command: 'preview'
-                    stack: cloudskew/${{parameters.environment}}
+                    stack: ${{parameters.environment}}
