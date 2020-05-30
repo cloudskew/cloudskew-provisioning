@@ -1,5 +1,6 @@
 import * as azure from '@pulumi/azure';
 import * as pulumi from '@pulumi/pulumi';
+import * as random from '@pulumi/random';
 import * as helper from './helper';
 import * as resourceNames from './resource-names';
 
@@ -287,13 +288,22 @@ let appServiceDiagramHelper = new azure.appservice.AppService(resourceNames.appS
 
 //#region sql server and database
 
+let suffix = new random.RandomString('sql-server-login-suffix', {
+    length: 6,
+    special: false,
+});
+
+let sqlServerRandomPwd = new random.RandomPassword('sql-server-password', {
+    length: 16,
+});
+
 let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
     name: resourceNames.sqlServer,
     resourceGroupName: rgSQL.name,
     tags: helper.tags,
     version: '12.0',
-    administratorLogin: 'myadmin', // @todo: for testing only. Make sure this is encrypted later.
-    administratorLoginPassword: 'myPassword1$', // @todo: for testing only. Make sure this is encrypted later.
+    administratorLogin: pulumi.interpolate `admin${suffix.result}`,
+    administratorLoginPassword: pulumi.interpolate `${sqlServerRandomPwd.result}`,
 });
 
 // To ensure that azure services can access the sql server, we need to create a firewall rule with the startIPAddress and 

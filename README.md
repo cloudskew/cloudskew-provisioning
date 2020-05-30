@@ -19,7 +19,7 @@ CloudSkew's infrastructure provisioning scripts are being migrated from terrafor
 
 CloudSkew uses two separate Azure Subscriptions to isolate its testing and production environments.
 
-Our [Pulumi Project](https://www.pulumi.com/docs/intro/concepts/project/) also uses two separate [Pulumi Stacks](https://www.pulumi.com/docs/intro/concepts/stack/) (`testing`, `production`) to isolate deployment configs for the above environments.
+CloudSkew's [Pulumi Project](https://www.pulumi.com/docs/intro/concepts/project/) also uses two separate [Pulumi Stacks](https://www.pulumi.com/docs/intro/concepts/stack/) (`testing`, `production`) to isolate deployment configs for the above environments.
 
 ### Service Principals and Role Assignment
 
