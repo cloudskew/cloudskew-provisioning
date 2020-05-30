@@ -4,13 +4,13 @@
 
 ## Prerequisites
 
-#### Environments
+### Environments
 
 CloudSkew uses two separate Azure Subscriptions to isolate its testing and production environments.
 
 Our [Pulumi Project](https://www.pulumi.com/docs/intro/concepts/project/) also uses two separate [Pulumi Stacks](https://www.pulumi.com/docs/intro/concepts/stack/) (`testing`, `production`) to isolate deployment configs for the above environments.
 
-#### Service Principals and Role Assignment
+### Service Principals and Role Assignment
 
 For automation, two service principals have been created in Azure Active Directory:
 
@@ -21,7 +21,7 @@ Both service principals have been assigned the `contributor` role in their respe
 
 ## Provisioning Process
 
-#### Automated Provisioning (via Azure Pipelines)
+### Automated Provisioning (via Azure Pipelines)
 
 Environment|Action|Pipeline|Status
 -----------|------|--------|------
@@ -30,7 +30,7 @@ Environment|Action|Pipeline|Status
 `production`|setup|`cloudskew-setup.production`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-setup.production?branchName=master)
 `production`|teardown|`cloudskew-teardown.production`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-teardown.production?branchName=master)
 
-#### Manual Provisioning (For Emergencies Only)
+### Manual Provisioning (For Emergencies Only)
 
 Ensure that you have [Pulumi installed on your local machine](https://www.pulumi.com/docs/get-started/azure/) and are logged in using the access token.
 
