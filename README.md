@@ -1,10 +1,6 @@
 # cloudskew-provisioning
 
-**Work in progress**: Over several sprints, CloudSkew's infrastructure provisioning scripts will be migrated from terraform to pulumi.
-
-## Current Status
-
-TBD
+**Work in progress**: Over several sprints, CloudSkew's infrastructure provisioning scripts will be migrated from terraform to pulumi. The following work is still pending: provisioning of Azure Function App, Azure Service bus, Azure Monitor and Azure Container Registry's webhook (to notify App Service).
 
 ## Prerequisites
 
@@ -23,34 +19,36 @@ For automation, two service principals have been created in Azure Active Directo
 
 Both service principals have been assigned the `contributor` role in their respective Azure Subscriptions.
 
-## Deployment Process
+## Provisioning Process
 
-#### Testing Environment (Manual)
+#### Automated Provisioning (via Azure Pipelines)
+
+Environment|Action|Pipeline|Status
+-----------|------|--------|------
+`testing`|setup|`cloudskew-setup.testing`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-setup.testing?branchName=master)
+`testing`|teardown|`cloudskew-teardown.testing`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-teardown.testing?branchName=master)
+`production`|setup|`cloudskew-setup.production`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-setup.production?branchName=master)
+`production`|teardown|`cloudskew-teardown.production`|![badge](https://dev.azure.com/cloudskew/cloudskew/_apis/build/status/provisioning/cloudskew-teardown.production?branchName=master)
+
+#### Manual Provisioning (For Emergencies Only)
 
 Ensure that you have [Pulumi installed on your local machine](https://www.pulumi.com/docs/get-started/azure/) and are logged in using the access token.
 
 1. Open a terminal window
-2. Clone this git repository locally: `git clone <remote url> <local folder>`
+2. Clone this git repository locally: `git clone https://github.com/cloudskew/cloudskew-provisioning.git <local folder>`
 3. Navigate to the local repo
 4. Install Pulumi: `curl -fsSL https://get.pulumi.com | sh`
 5. Run `npm install`
-6. Set the following environment variables (use details of `cloudskew-testing-service-principal`)
+6. Set the following environment variables (choose one of the service principals mentioned above according to the environment to be provisioned)
 
     * export ARM_CLIENT_ID=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-ID
     * export ARM_CLIENT_SECRET=REPLACE-WITH-SERVICE-PRINCIPAL-CLIENT-SECRET
     * export ARM_SUBSCRIPTION_ID=REPLACE-WITH-AZURE-SUBSCRIPTION-ID
     * export ARM_TENANT_ID=REPLACE-WITH-AZURE-TENANT-ID
 
-7. run `pulumi stack select testing`
+7. Choose an environment to target by running:
+
+    * `pulumi stack select testing` for testing environment OR
+    * `pulumi stack select production` for production environment
+
 8. run `pulumi up`
-
-#### Production Environment (Automated)
-
-TBD
-
-## Pending Work
-
-* ACR webhook
-* Azure Functions
-* Azure Service bus
-* Azure Monitor
