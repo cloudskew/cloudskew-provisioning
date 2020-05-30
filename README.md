@@ -1,6 +1,19 @@
 # cloudskew-provisioning
 
-**Work in progress**: Over several sprints, CloudSkew's infrastructure provisioning scripts will be migrated from terraform to pulumi. The following work is still pending: provisioning of Azure Function App, Azure Service bus, Azure Monitor and Azure Container Registry's webhook (to notify App Service).
+## Work in progress
+
+CloudSkew's infrastructure provisioning scripts are being migrated from terraform to pulumi. 
+
+The following resources still have to be migrated:
+
+* Azure Function App
+* Azure Service bus
+* Azure Monitor (Action Group, Metric Alerts, App Insights)
+
+In addition to this, we need automated provisioning for:
+
+* Azure Container Registry's webhook (to notify App Service)
+* Auth0 tenant
 
 ## Prerequisites
 
