@@ -1,11 +1,11 @@
-# Provisions the cloudskew infrastructure in the testing environment.
+# Provisions the cloudskew infrastructure in the production environment.
 
 pool:
   vmImage: ubuntu-latest
 
 trigger: none
 
-name: cloudskew-setup.testing
+name: cloudskew-setup.production
 
 variables:
   - group: cloudskew-variable-group
@@ -14,4 +14,4 @@ stages:
   - template: templates/setup.yml
     parameters:
       azureSubscription: $(temp-delete-me-service-connection)
-      environment: testing
+      environment: production
