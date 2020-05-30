@@ -1,16 +1,14 @@
-# cloudskew-provisioning
-
 ## Work in progress
 
-CloudSkew's infrastructure provisioning scripts are being migrated from terraform to pulumi. 
+CloudSkew's infrastructure provisioning scripts are being migrated from terraform to pulumi.
 
-The following resources still have to be migrated:
+:hammer: The following resources still have to be migrated:
 
 * Azure Function App
 * Azure Service bus
 * Azure Monitor (Action Group, Metric Alerts, App Insights)
 
-In addition to this, we need automated provisioning for:
+:wrench: In addition to this, we need automated provisioning for:
 
 * Azure Container Registry's webhook (to notify App Service)
 * Auth0 tenant

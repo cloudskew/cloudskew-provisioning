@@ -203,6 +203,11 @@ let containerRegistry = new azure.containerservice.Registry(resourceNames.contai
     sku: 'Basic',
 });
 
+// @todo: Extracting the serviceUri doesn't seem possible via the terraform provider. So far, I've only been
+// able to extract it using AZ CLI as follows: 
+// `az webapp deployment container config --ids <webapp resource id> --output json --enable-cd
+// Need to investigate further, hence commenting out below code for now.
+
 // let containerRegistryWebhook = new azure.containerservice.RegistryWebhook(resourceNames.crWebhook, {
 //     name: resourceNames.crWebhook,
 //     resourceGroupName: rgContainerRegistry.name,
