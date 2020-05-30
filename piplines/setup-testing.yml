@@ -13,5 +13,5 @@ variables:
 stages:
   - template: templates/setup.yml
     parameters:
-      azureSubscription: $(temp-delete-me-service-connection)
+      azureSubscription: $(provisioning-service-connection)
       environment: testing
