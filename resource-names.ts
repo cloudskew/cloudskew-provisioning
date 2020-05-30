@@ -7,8 +7,8 @@ export const appServicePlan = `cloudskew${environment}`;
 //#endregion
 
 //#region app service
-export const appServiceAPI = `cloudskewx${environment}`; // @todo: remove the 'x' later.
-export const appServiceDiagramHelper = `cloudskewxdgmhelper${environment}`; // @todo: remove the 'x' later.
+export const appServiceAPI = `cloudskew${environment}`;
+export const appServiceDiagramHelper = `cloudskewdgmhelper${environment}`;
 //#endregion
 
 //#region CDN profiles
@@ -16,22 +16,22 @@ export const cdnProfile = `cloudskew${environment}`;
 //#endregion
 
 //#region CDN endpoints
-export const cdnEndpointAsset = `cloudskewx${environment}`; // @todo: remove the 'x' later.
-export const cdnEndpointCustomImages = `cloudskewxcustomimages${environment}`; // @todo: remove the 'x' later.
-export const cdnEndpointLanding = `cloudskewxlanding${environment}`; // @todo: remove the 'x' later.
-export const cdnEndpointUI = `cloudskewxui${environment}`; // @todo: remove the 'x' later.
+export const cdnEndpointAsset = `cloudskew${environment}`;
+export const cdnEndpointCustomImages = `cloudskewcustomimages${environment}`;
+export const cdnEndpointLanding = `cloudskewlanding${environment}`;
+export const cdnEndpointUI = `cloudskewui${environment}`;
 //#endregion
 
 //#region container registry
-export const containerRegistry = `cloudskewxcr${environment}`; // @todo: remove the 'x' later.
+export const containerRegistry = `cloudskewcr${environment}`;
 //#endregion
 
 //#region container registry webhook
-export const crWebhook = `cloudskewxcrwebhook${environment}`;
+export const crWebhook = `cloudskewcrwebhook${environment}`;
 //#endregion
 
 //#region key vault
-export const keyVault = `cloudskewxkeyvault${environment}`; // @todo: remove the 'x' later.
+export const keyVault = `cloudskewkeyvault${environment}`;
 //#endregion
 
 //#region key vault secrets
@@ -57,20 +57,20 @@ export const rgUI = `rg${environment}-cloudskew-ui`;
 //#endregion
 
 //#region storage accounts
-export const saCDN = `cloudskewxcdn${environment}`; // @todo: remove the 'x' later.
-export const saCustomImages = `cloudskewxcustimages${environment}`; // @todo: remove the 'x' later.
-export const saLanding = `cloudskewxlanding${environment}`; // @todo: remove the 'x' later.
-export const saUI = `cloudskewxui${environment}`; // @todo: remove the 'x' later.
+export const saCDN = `cloudskewcdn${environment}`;
+export const saCustomImages = `cloudskewcustimages${environment}`;
+export const saLanding = `cloudskewlanding${environment}`;
+export const saUI = `cloudskewui${environment}`;
 //#endregion
 
 //#region sql databases
-export const sqlDB = `cloudskewx${environment}`; // @todo: remove the 'x' later.
+export const sqlDB = `cloudskew${environment}`;
 //#endregion
 
 //#region sql server firewall rule
-export const sqlServerFirewallRule = `cloudskewx${environment}`;  // @todo: remove the 'x' later.
+export const sqlServerFirewallRule = `cloudskew${environment}`;
 //#endregion
 
 //#region sql servers
-export const sqlServer = `cloudskewx${environment}`;  // @todo: remove the 'x' later.
+export const sqlServer = `cloudskew${environment}`;
 //#endregion
