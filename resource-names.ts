@@ -17,6 +17,7 @@ export const cdnProfile = `cloudskew${environment}`;
 
 //#region CDN endpoints
 export const cdnEndpointAsset = `cloudskew${environment}`;
+export const cdnEndpointBlog = `cloudskewblog${environment}`;
 export const cdnEndpointCustomImages = `cloudskewcustomimages${environment}`;
 export const cdnEndpointLanding = `cloudskewlanding${environment}`;
 export const cdnEndpointUI = `cloudskewui${environment}`;
@@ -45,6 +46,7 @@ export const managedIdentity = `cloudskewmanagedidentity${environment}`;
 
 //#region resource groups
 export const rgAPI = `rg${environment}-cloudskew-api`;
+export const rgBlog = `rg${environment}-cloudskew-blog`;
 export const rgCDN = `rg${environment}-cloudskew-cdn`;
 export const rgContainerRegistry = `rg${environment}-cloudskew-container-registry`;
 export const rgCustomImages = `rg${environment}-cloudskew-custom-images`;
@@ -57,6 +59,7 @@ export const rgUI = `rg${environment}-cloudskew-ui`;
 //#endregion
 
 //#region storage accounts
+export const saBlog = `cloudskewblog${environment}`;
 export const saCDN = `cloudskewcdn${environment}`;
 export const saCustomImages = `cloudskewcustimages${environment}`;
 export const saLanding = `cloudskewlanding${environment}`;

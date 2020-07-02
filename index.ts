@@ -26,6 +26,12 @@ let rgAPI = new azure.core.ResourceGroup(resourceNames.rgAPI, {
     tags: helper.tags,
 });
 
+let rgBlog = new azure.core.ResourceGroup(resourceNames.rgBlog, {
+    name: resourceNames.rgBlog,
+    location: location,
+    tags: helper.tags,
+});
+
 let rgCDN = new azure.core.ResourceGroup(resourceNames.rgCDN, {
     name: resourceNames.rgCDN,
     location: location,
@@ -83,6 +89,14 @@ let rgUI = new azure.core.ResourceGroup(resourceNames.rgUI, {
 //#endregion
 
 //#region storage accounts
+
+let saBlog = new azure.storage.Account(resourceNames.saBlog, {
+    name: resourceNames.saBlog,
+    resourceGroupName: rgBlog.name,
+    tags: helper.tags,
+    accountReplicationType: 'LRS',
+    accountTier: 'Standard',
+});
 
 let saCDN = new azure.storage.Account(resourceNames.saCDN, {
     name: resourceNames.saCDN,
@@ -152,6 +166,19 @@ let cndEndpointAssets = new azure.cdn.Endpoint(resourceNames.cdnEndpointAsset, {
     origins: [{
         name: resourceNames.cdnEndpointAsset,
         hostName: saCDN.primaryBlobHost,
+    }],
+});
+
+let cndEndpointBlog = new azure.cdn.Endpoint(resourceNames.cdnEndpointBlog, {
+    name: resourceNames.cdnEndpointBlog,
+    resourceGroupName: rgBlog.name,
+    tags: helper.tags,
+    location: 'global',
+    profileName: cdnProfile.name,
+    originHostHeader: saBlog.primaryWebHost,
+    origins: [{
+        name: resourceNames.cdnEndpointBlog,
+        hostName: saBlog.primaryWebHost,
     }],
 });
 
@@ -302,8 +329,8 @@ let sqlServer = new azure.sql.SqlServer(resourceNames.sqlServer, {
     resourceGroupName: rgSQL.name,
     tags: helper.tags,
     version: '12.0',
-    administratorLogin: pulumi.interpolate `admin${suffix.result}`,
-    administratorLoginPassword: pulumi.interpolate `${sqlServerRandomPwd.result}`,
+    administratorLogin: pulumi.interpolate`admin${suffix.result}`,
+    administratorLoginPassword: pulumi.interpolate`${sqlServerRandomPwd.result}`,
 });
 
 // To ensure that azure services can access the sql server, we need to create a firewall rule with the startIPAddress and 
